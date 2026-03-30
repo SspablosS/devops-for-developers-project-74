@@ -1,4 +1,8 @@
 services:
+  db:
+    environment:
+      POSTGRES_PASSWORD: password
+
   app:
     build:
       context: .
@@ -9,7 +13,15 @@ services:
       - '8080'
     environment:
       - NODE_ENV=development
+      - DATABASE_HOST=db
+      - DATABASE_NAME=postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=password
+      - DATABASE_PORT=5432
     command: make dev
+    depends_on:
+      db:
+        condition: service_healthy
 
   caddy:
     image: caddy:2.8-alpine
