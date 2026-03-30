@@ -1,27 +1,29 @@
 .PHONY: setup test dev up down logs ci build push
 
+DOCKER_COMPOSE := docker compose
+
 setup:
-	docker-compose run --rm app make setup
+	$(DOCKER_COMPOSE) run --rm app make setup
 
 test:
-	docker-compose -f docker-compose.yml up --abort-on-container-exit --exit-code-from app
+	$(DOCKER_COMPOSE) -f docker-compose.yml up --abort-on-container-exit --exit-code-from app
 
 ci: test
 
 build:
-	docker-compose -f docker-compose.yml build app
+	$(DOCKER_COMPOSE) -f docker-compose.yml build app
 
 push:
-	docker-compose -f docker-compose.yml push app
+	$(DOCKER_COMPOSE) -f docker-compose.yml push app
 
 dev:
-	docker-compose up
+	$(DOCKER_COMPOSE) up
 
 up:
-	docker-compose up -d
+	$(DOCKER_COMPOSE) up -d
 
 down:
-	docker-compose down
+	$(DOCKER_COMPOSE) down
 
 logs:
-	docker-compose logs -f
+	$(DOCKER_COMPOSE) logs -f
